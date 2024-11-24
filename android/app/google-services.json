@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888161417902",
+    "project_id": "sunnyapp00",
+    "storage_bucket": "sunnyapp00.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888161417902:android:778e236282dd9f5d2f8b3f",
+        "android_client_info": {
+          "package_name": "io.law.sunny"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbLmNCnYScA1S0oKVnMrY7vpFLxTLh3ys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
