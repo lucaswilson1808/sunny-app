@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
-import 'screens/home_screen.dart';
+import 'package:sunny/screens/landing_screen.dart';
+import 'screens/search_screen.dart';
 import 'screens/login_screen.dart';
 
 void main() async {
@@ -13,7 +14,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -36,10 +37,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
-      initialRoute: '/login_screen',
+      initialRoute: '/login',
       routes: {
-        '/login_screen': (context) => const LoginScreen(),
-        '/home_screen': (context) => HomeScreen(onToggleTheme: toggleTheme),
+        '/login': (context) => const LoginScreen(),
+        '/landing': (context) => LandingScreen(),
+        '/search_screen': (context) => SearchScreen(onToggleTheme: toggleTheme),
       },
     );
   }

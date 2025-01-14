@@ -4,7 +4,7 @@ import '../models/weather.dart';
 class LocationOverviewScreen extends StatelessWidget {
   final Weather weather;
 
-  const LocationOverviewScreen({Key? key, required this.weather}) : super(key: key);
+  const LocationOverviewScreen({super.key, required this.weather});
 
   @override
   Widget build(BuildContext context) {

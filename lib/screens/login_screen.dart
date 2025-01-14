@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
           password: passwordController.text.trim(),
         );
         Fluttertoast.showToast(msg: "Login successful!");
-        Navigator.pushReplacementNamed(context, '/home_screen'); 
+        Navigator.pushReplacementNamed(context, '/landing'); 
       } on FirebaseAuthException catch (e) {
         Fluttertoast.showToast(msg: e.message ?? "An error occurred.");
       } finally {
@@ -97,10 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: loginUser,
-                      child: const Text("Login"),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                       ),
+                      child: const Text("Login"),
                     ),
                     const SizedBox(height: 20),
                     Center(

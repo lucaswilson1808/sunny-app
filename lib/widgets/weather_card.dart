@@ -6,8 +6,7 @@ class WeatherCard extends StatelessWidget {
   final Weather weather;
   final bool isCelsius;
 
-  const WeatherCard({Key? key, required this.weather, required this.isCelsius})
-      : super(key: key);
+  const WeatherCard({super.key, required this.weather, required this.isCelsius});
 
   @override
   Widget build(BuildContext context) {

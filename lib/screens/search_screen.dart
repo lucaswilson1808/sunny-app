@@ -3,16 +3,16 @@ import '../services/weather_api.dart';
 import '../models/weather.dart';
 import '../widgets/weather_card.dart';
 
-class HomeScreen extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   final VoidCallback onToggleTheme;
 
-  const HomeScreen({Key? key, required this.onToggleTheme}) : super(key: key);
+  const SearchScreen({super.key, required this.onToggleTheme});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreenState extends State<SearchScreen> {
   Weather? weather;
   final TextEditingController cityController = TextEditingController();
   bool isCelsius = true; // Track temperature unit
@@ -53,7 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sunny'),
+        title: const Text('Location Search',
+        style: TextStyle(
+          color: Color.fromARGB(255, 67, 22, 6)),
+          ),
+      backgroundColor: const Color.fromARGB(255, 197, 127, 230),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/landing');
+          },
+        ),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -61,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 widget.onToggleTheme();
               } else if (value == 'Toggle Unit') {
                 toggleTemperatureUnit();
+              } else if (value == 'Logout'){
+                Navigator.pushReplacementNamed(context, '/logout');
               }
             },
             itemBuilder: (context) => [
@@ -71,6 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
               const PopupMenuItem(
                 value: 'Toggle Unit',
                 child: Text('Toggle Celsius/Fahrenheit'),
+              ),
+              const PopupMenuItem(
+                value: 'Logout',
+                child: Text('Logout'),
               ),
             ],
           ),
