@@ -8,8 +8,6 @@ class LocationOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double temperatureInFahrenheit = (weather.temperature * 9 / 5) + 32;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('${weather.city} Overview'),
@@ -58,7 +56,7 @@ class LocationOverviewScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${weather.temperature.toStringAsFixed(1)}°C / ${temperatureInFahrenheit.toStringAsFixed(1)}°F',
+                          '${weather.temperature.toStringAsFixed(1)}°C',
                           style: const TextStyle(fontSize: 18),
                         ),
                       ],
@@ -106,11 +104,11 @@ class LocationOverviewScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    _buildDetailRow('Humidity', '85%'), 
-                    _buildDetailRow('Wind Speed', '7.2 mph'), 
-                    _buildDetailRow('Pressure', '1011 mb'), 
-                    _buildDetailRow('Visibility', '16 km'), 
-                    _buildDetailRow('UV Index', '0.0'), 
+                    _buildDetailRow('Wind Speed', '${weather.windSpeedKph} kph'),
+                    _buildDetailRow('Humidity', '${weather.humidity}%'),
+                    _buildDetailRow('Pressure', '${weather.pressureMb} mb'),
+                    _buildDetailRow('Visibility', '${weather.visibilityKm} km'),
+                    _buildDetailRow('UV Index', '${weather.uvIndex}'),
                   ],
                 ),
               ),

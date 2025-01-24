@@ -143,9 +143,9 @@ class _LandingScreenState extends State<LandingScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          AuthService.logout(context);
+                           _fetchWeatherForCurrentLocation();
                         },
-                        child: Text('Logout'),
+                        child: Text('Refresh'),
                       ),
                     ],
                   ),
