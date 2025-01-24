@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sunny/screens/account_screen.dart';
 import 'package:sunny/screens/landing_screen.dart';
+import 'package:sunny/screens/main_screen.dart';
 import 'package:sunny/screens/register_screen.dart';
 import 'package:sunny/screens/search_screen.dart';
 import 'package:sunny/screens/login_screen.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase
   await Firebase.initializeApp();
-  
+
   runApp(const MyApp());
 }
 
@@ -41,11 +41,14 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
-      initialRoute: '/login',
+      // Check if the user is logged in or not
+      initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/main_screen',
       routes: {
+        '/main_screen': (context) => MainScreen(onToggleTheme: toggleTheme),
         '/login': (context) => const LoginScreen(),
         '/landing': (context) => LandingScreen(),
-        '/search_screen': (context) => SearchScreen(onToggleTheme: toggleTheme),
+        '/search_screen': (context) =>
+            SearchScreen(onToggleTheme: toggleTheme),
         '/account': (context) => const AccountScreen(),
         '/register': (context) => const RegisterScreen(),
       },

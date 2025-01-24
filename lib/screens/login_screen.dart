@@ -29,7 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
           password: passwordController.text.trim(),
         );
         Fluttertoast.showToast(msg: "Login successful!");
-        Navigator.pushReplacementNamed(context, '/landing'); 
+
+        // Navigate to MainScreen
+        Navigator.pushReplacementNamed(context, '/main_screen');
       } on FirebaseAuthException catch (e) {
         Fluttertoast.showToast(msg: e.message ?? "An error occurred.");
       } finally {
