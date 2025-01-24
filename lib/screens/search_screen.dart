@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/weather_api.dart';
 import '../models/weather.dart';
 import '../widgets/weather_card.dart';
+import 'package:sunny/services/logout.dart';
 
 class SearchScreen extends StatefulWidget {
   final VoidCallback onToggleTheme;
@@ -72,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
               } else if (value == 'Toggle Unit') {
                 toggleTemperatureUnit();
               } else if (value == 'Logout'){
-                Navigator.pushReplacementNamed(context, '/logout');
+                AuthService.logout(context);
               }
             },
             itemBuilder: (context) => [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sunny/services/logout.dart';
 import '../services/weather_api.dart';
 import '../models/weather.dart';
 
@@ -82,23 +83,24 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to Sunny!', 
-        style: TextStyle(
-          color: Color.fromARGB(255, 67, 22, 6)),
-          ),
-      backgroundColor: const Color.fromARGB(255, 197, 127, 230),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/landing');
-          },
+        title: const Text(
+          'Welcome to Sunny!',
+          style: TextStyle(color: Color.fromARGB(255, 67, 22, 6)),
         ),
+        backgroundColor: const Color.fromARGB(255, 197, 127, 230),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.pushNamed(
+                  context, '/account'); // Navigate to the account page
+            },
+          ),
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == 'Logout') {
-                Navigator.pushReplacementNamed(context,'/login');
-              } 
+                AuthService.logout(context);
+              }
             },
             itemBuilder: (context) => [
               const PopupMenuItem(
@@ -134,13 +136,14 @@ class _LandingScreenState extends State<LandingScreen> {
                       SizedBox(height: 40),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/search_screen');
+                          Navigator.pushReplacementNamed(
+                              context, '/search_screen');
                         },
                         child: Text('Search for a Location'),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/login');
+                          AuthService.logout(context);
                         },
                         child: Text('Logout'),
                       ),

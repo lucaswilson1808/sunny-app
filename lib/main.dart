@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
+import 'package:sunny/screens/account_screen.dart';
 import 'package:sunny/screens/landing_screen.dart';
-import 'screens/search_screen.dart';
-import 'screens/login_screen.dart';
+import 'package:sunny/screens/register_screen.dart';
+import 'package:sunny/screens/search_screen.dart';
+import 'package:sunny/screens/login_screen.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +46,8 @@ class _MyAppState extends State<MyApp> {
         '/login': (context) => const LoginScreen(),
         '/landing': (context) => LandingScreen(),
         '/search_screen': (context) => SearchScreen(onToggleTheme: toggleTheme),
+        '/account': (context) => const AccountScreen(),
+        '/register': (context) => const RegisterScreen(),
       },
     );
   }
