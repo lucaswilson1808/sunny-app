@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'landing_screen.dart';
-import 'search_screen.dart';
-import 'account_screen.dart';
-import '../services/weather_api.dart';
+import 'package:sunny/screens/landing_screen.dart';
+import 'package:sunny/screens/search_screen.dart';
+import 'package:sunny/screens/account_screen.dart';
+import 'package:sunny/screens/forecast_screen.dart';
+import 'package:sunny/services/logout.dart';
 import '../models/weather.dart';
-import 'forecast_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final VoidCallback onToggleTheme;
+  final Weather weather;
 
-  const MainScreen({Key? key, required this.onToggleTheme}) : super(key: key);
+  const MainScreen({Key? key, required this.onToggleTheme, required this.weather})
+      : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -18,49 +19,69 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  Weather? _weather;
-  late List<Widget> _pages;
+  bool isCelsius = true;
 
-  @override
-  void initState() {
-    super.initState();
-    _initializePages();
-    _fetchWeatherForCurrentLocation();
+  void toggleTemperatureUnit() {
+    setState(() {
+      isCelsius = !isCelsius;
+    });
   }
 
-  void _initializePages() {
-    _pages = [
-      LandingScreen(),
-      SearchScreen(onToggleTheme: widget.onToggleTheme),
-      const AccountScreen(),
-      const Center(child: CircularProgressIndicator()),
-    ];
-  }
-
-  Future<void> _fetchWeatherForCurrentLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      String location = "${position.latitude},${position.longitude}";
-      Weather? weather = await WeatherApi.fetchWeather(location);
-
-      if (weather != null) {
-        setState(() {
-          _weather = weather;
-          _pages[3] = ForecastScreen(weather: _weather!);
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _weather = null;
-      });
+  String get _currentTitle {
+    switch (_currentIndex) {
+      case 0:
+        return "Welcome to Sunny!";
+      case 1:
+        return "Location Search";
+      case 2:
+        return "Your Account";
+      case 3:
+        return "3-Day Forecast";
+      default:
+        return "Sunny";
     }
   }
+
+  List<Widget> get _pages => [
+        LandingScreen(weather: widget.weather, isCelsius: isCelsius),
+        SearchScreen(isCelsius: isCelsius),
+        const AccountScreen(),
+        ForecastScreen(weather: widget.weather),
+      ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_currentTitle),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'Toggle Theme') {
+                widget.onToggleTheme();
+              } else if (value == 'Toggle Unit') {
+                toggleTemperatureUnit();
+              } else if (value == 'Logout') {
+                AuthService.logout(context);
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'Toggle Theme',
+                child: Text('Toggle Dark/Light Mode'),
+              ),
+              const PopupMenuItem(
+                value: 'Toggle Unit',
+                child: Text('Toggle Celsius/Fahrenheit'),
+              ),
+              const PopupMenuItem(
+                value: 'Logout',
+                child: Text('Logout'),
+              ),
+            ],
+          ),
+        ],
+      ),
       body: IndexedStack(
         index: _currentIndex,
         children: _pages,
@@ -72,7 +93,6 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        backgroundColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import '../services/weather_api.dart';
 import '../models/weather.dart';
 import '../widgets/weather_card.dart';
-import 'package:sunny/services/logout.dart';
 
 class SearchScreen extends StatefulWidget {
-  final VoidCallback onToggleTheme;
+  final bool isCelsius;
 
-  const SearchScreen({super.key, required this.onToggleTheme});
+  const SearchScreen({Key? key, required this.isCelsius}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -16,7 +15,6 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   Weather? weather;
   final TextEditingController cityController = TextEditingController();
-  bool isCelsius = true; // Track temperature unit
 
   Future<void> fetchWeather() async {
     final city = cityController.text;
@@ -44,79 +42,31 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  void toggleTemperatureUnit() {
-    setState(() {
-      isCelsius = !isCelsius;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Location Search',
-        style: TextStyle(
-          color: Color.fromARGB(255, 67, 22, 6)),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          TextField(
+            controller: cityController,
+            decoration: const InputDecoration(
+              labelText: 'Enter city or zip code',
+              border: OutlineInputBorder(),
+            ),
           ),
-      backgroundColor: const Color.fromARGB(255, 197, 127, 230),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/main_screen');
-          },
-        ),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              if (value == 'Toggle Theme') {
-                widget.onToggleTheme();
-              } else if (value == 'Toggle Unit') {
-                toggleTemperatureUnit();
-              } else if (value == 'Logout'){
-                AuthService.logout(context);
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'Toggle Theme',
-                child: Text('Toggle Dark/Light Mode'),
-              ),
-              const PopupMenuItem(
-                value: 'Toggle Unit',
-                child: Text('Toggle Celsius/Fahrenheit'),
-              ),
-              const PopupMenuItem(
-                value: 'Logout',
-                child: Text('Logout'),
-              ),
-            ],
+          const SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: fetchWeather,
+            child: const Text('Get Weather'),
           ),
+          const SizedBox(height: 20),
+          if (weather != null)
+            WeatherCard(
+              weather: weather!,
+              isCelsius: widget.isCelsius,
+            ),
         ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: cityController,
-              decoration: const InputDecoration(
-                labelText: 'Enter city or zip code',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: fetchWeather,
-              child: const Text('Get Weather'),
-            ),
-            const SizedBox(height: 20),
-            if (weather != null)
-              WeatherCard(
-                weather: weather!,
-                isCelsius: isCelsius, // Pass the temperature unit
-              ),
-          ],
-        ),
       ),
     );
   }

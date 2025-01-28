@@ -1,43 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:sunny/services/logout.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
+  const AccountScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Account'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('lib/assets/images/Sunny logo.png') // Replace with an actual asset
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Name: John Doe',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Email: john.doe@example.com',
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                AuthService.logout(context);
-              },
-              child: const Text('Log Out'),
-            ),
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Account Information",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          const Text("Name: John Doe", style: TextStyle(fontSize: 16)),
+          const Text("Email: johndoe@example.com", style: TextStyle(fontSize: 16)),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+            child: const Text("Logout"),
+          ),
+        ],
       ),
     );
   }

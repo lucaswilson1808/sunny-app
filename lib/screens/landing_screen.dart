@@ -1,156 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:sunny/services/logout.dart';
-import '../services/weather_api.dart';
 import '../models/weather.dart';
 
-class LandingScreen extends StatefulWidget {
-  @override
-  _LandingScreenState createState() => _LandingScreenState();
-}
+class LandingScreen extends StatelessWidget {
+  final Weather weather;
+  final bool isCelsius;
 
-class _LandingScreenState extends State<LandingScreen> {
-  String locationMessage = "Fetching your location...";
-  Weather? currentWeather;
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchWeatherForCurrentLocation();
-  }
-
-  Future<void> _fetchWeatherForCurrentLocation() async {
-    try {
-      // Ensure location services are enabled
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        setState(() {
-          locationMessage = "Location services are disabled.";
-          isLoading = false;
-        });
-        return;
-      }
-
-      // Request location permissions
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          setState(() {
-            locationMessage = "Location permission denied.";
-            isLoading = false;
-          });
-          return;
-        }
-      }
-
-      if (permission == LocationPermission.deniedForever) {
-        setState(() {
-          locationMessage =
-              "Location permissions are permanently denied. Please enable them in settings.";
-          isLoading = false;
-        });
-        return;
-      }
-
-      // Get the current location
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-
-      setState(() {
-        locationMessage =
-            "Lat: ${position.latitude}, Long: ${position.longitude}";
-      });
-
-      // Fetch weather data using WeatherApi
-      final weather = await WeatherApi.fetchWeather(
-          '${position.latitude},${position.longitude}');
-
-      setState(() {
-        currentWeather = weather;
-        isLoading = false;
-      });
-    } catch (error) {
-      setState(() {
-        locationMessage = "Error fetching location or weather: $error";
-        isLoading = false;
-      });
-    }
-  }
+  const LandingScreen({Key? key, required this.weather, required this.isCelsius})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Welcome to Sunny!',
-          style: TextStyle(color: Color.fromARGB(255, 67, 22, 6)),
-        ),
-        backgroundColor: const Color.fromARGB(255, 197, 127, 230),
-        actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.settings_rounded),
-            onSelected: (value) {
-              if (value == 'Logout') {
-                AuthService.logout(context);
-              }
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Weather in ${weather.city}, ${weather.region}:",
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          const SizedBox(height: 10),
+          Text("${weather.condition}"),
+          const SizedBox(height: 5),
+          Text(
+              "Temperature: ${isCelsius ? weather.temperature.toStringAsFixed(1) + "°C" : (weather.temperature * 9 / 5 + 32).toStringAsFixed(1) + "°F"}"),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Implement location search navigation
             },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'Logout',
-                child: Text('Logout'),
-              ),
-            ],
+            child: const Text("Search for a Location"),
           ),
         ],
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : currentWeather != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Weather in ${currentWeather!.city}, ${currentWeather!.region}:",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "${currentWeather!.condition}",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        "Temperature: ${currentWeather!.temperature.toStringAsFixed(1)}°C",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(height: 40),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/search_screen');
-                        },
-                        child: Text('Search for a Location'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                           _fetchWeatherForCurrentLocation();
-                        },
-                        child: Text('Refresh'),
-                      ),
-                    ],
-                  ),
-                )
-              : Center(
-                  child: Text(
-                    locationMessage,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
     );
   }
 }
