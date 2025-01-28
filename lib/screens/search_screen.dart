@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/landing');
+            Navigator.pushReplacementNamed(context, '/main_screen');
           },
         ),
         actions: [

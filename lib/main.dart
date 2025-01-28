@@ -11,7 +11,6 @@ import 'package:sunny/screens/login_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
   await Firebase.initializeApp();
 
   runApp(const MyApp());
@@ -38,17 +37,22 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sunny',
-      theme: ThemeData.light(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white, // Default background color
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white, // Ensure solid background color
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+        ),
+      ),
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
-      // Check if the user is logged in or not
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/main_screen',
       routes: {
         '/main_screen': (context) => MainScreen(onToggleTheme: toggleTheme),
         '/login': (context) => const LoginScreen(),
         '/landing': (context) => LandingScreen(),
-        '/search_screen': (context) =>
-            SearchScreen(onToggleTheme: toggleTheme),
+        '/search_screen': (context) => SearchScreen(onToggleTheme: toggleTheme),
         '/account': (context) => const AccountScreen(),
         '/register': (context) => const RegisterScreen(),
       },

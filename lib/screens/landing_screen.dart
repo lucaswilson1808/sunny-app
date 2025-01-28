@@ -89,14 +89,8 @@ class _LandingScreenState extends State<LandingScreen> {
         ),
         backgroundColor: const Color.fromARGB(255, 197, 127, 230),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.pushNamed(
-                  context, '/account'); // Navigate to the account page
-            },
-          ),
           PopupMenuButton<String>(
+            icon: const Icon(Icons.settings_rounded),
             onSelected: (value) {
               if (value == 'Logout') {
                 AuthService.logout(context);
