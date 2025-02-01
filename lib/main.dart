@@ -39,6 +39,10 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void switchToSearch(BuildContext context) {
+    Navigator.pushNamed(context, '/main_screen', arguments: 1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,9 +57,8 @@ class _MyAppState extends State<MyApp> {
       ),
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
-      initialRoute: FirebaseAuth.instance.currentUser == null
-          ? '/login'
-          : '/main_screen',
+      initialRoute:
+          FirebaseAuth.instance.currentUser == null ? '/login' : '/main_screen',
       routes: {
         '/main_screen': (context) => MainScreen(
               onToggleTheme: toggleTheme,
@@ -65,6 +68,7 @@ class _MyAppState extends State<MyApp> {
         '/landing': (context) => LandingScreen(
               weather: widget.initialWeather!,
               isCelsius: true,
+              onSearchPressed: () => switchToSearch(context),
             ),
         '/search_screen': (context) => SearchScreen(
               isCelsius: true,
