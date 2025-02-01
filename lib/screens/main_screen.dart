@@ -56,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
             onSearchPressed: switchToSearch),
         SearchScreen(isCelsius: isCelsius),
         const AccountScreen(),
-        ForecastScreen(weather: widget.weather),
+        ForecastScreen(weather: widget.weather,isCelsius: isCelsius),
       ];
 
   @override

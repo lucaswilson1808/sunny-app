@@ -3,8 +3,9 @@ import '../models/weather.dart';
 
 class ForecastScreen extends StatelessWidget {
   final Weather weather;
+  final bool isCelsius;
 
-  const ForecastScreen({Key? key, required this.weather}) : super(key: key);
+  const ForecastScreen({Key? key, required this.weather, required this.isCelsius}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,10 @@ class ForecastScreen extends StatelessWidget {
               itemCount: weather.forecast.length,
               itemBuilder: (context, index) {
                 final day = weather.forecast[index];
+                final highTemp = isCelsius ? day.highTemp : (day.highTemp * 9 / 5) + 32;
+                final lowTemp = isCelsius ? day.lowTemp : (day.lowTemp * 9 / 5) + 32;
+                final unit = isCelsius ? "°C" : "°F";
+
                 return Card(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: ListTile(
@@ -41,7 +46,7 @@ class ForecastScreen extends StatelessWidget {
                     ),
                     title: Text(day.date),
                     subtitle: Text(
-                      "${day.condition}\nHigh: ${day.highTemp}°C, Low: ${day.lowTemp}°C",
+                      "${day.condition}\nHigh: ${highTemp.toStringAsFixed(1)}$unit, Low: ${lowTemp.toStringAsFixed(1)}$unit",
                     ),
                   ),
                 );
