@@ -4,8 +4,13 @@ import '../models/weather.dart';
 class LandingScreen extends StatelessWidget {
   final Weather weather;
   final bool isCelsius;
+  final VoidCallback onSearchPressed;
 
-  const LandingScreen({Key? key, required this.weather, required this.isCelsius})
+  const LandingScreen(
+      {Key? key,
+      required this.weather,
+      required this.isCelsius,
+      required this.onSearchPressed})
       : super(key: key);
 
   @override
@@ -25,9 +30,7 @@ class LandingScreen extends StatelessWidget {
               "Temperature: ${isCelsius ? weather.temperature.toStringAsFixed(1) + "°C" : (weather.temperature * 9 / 5 + 32).toStringAsFixed(1) + "°F"}"),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              // Implement location search navigation
-            },
+            onPressed: onSearchPressed,
             child: const Text("Search for a Location"),
           ),
         ],

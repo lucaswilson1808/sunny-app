@@ -10,7 +10,8 @@ class MainScreen extends StatefulWidget {
   final VoidCallback onToggleTheme;
   final Weather weather;
 
-  const MainScreen({Key? key, required this.onToggleTheme, required this.weather})
+  const MainScreen(
+      {Key? key, required this.onToggleTheme, required this.weather})
       : super(key: key);
 
   @override
@@ -24,6 +25,12 @@ class _MainScreenState extends State<MainScreen> {
   void toggleTemperatureUnit() {
     setState(() {
       isCelsius = !isCelsius;
+    });
+  }
+
+  void switchToSearch() {
+    setState(() {
+      _currentIndex = 1;
     });
   }
 
@@ -43,7 +50,10 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> get _pages => [
-        LandingScreen(weather: widget.weather, isCelsius: isCelsius),
+        LandingScreen(
+            weather: widget.weather,
+            isCelsius: isCelsius,
+            onSearchPressed: switchToSearch),
         SearchScreen(isCelsius: isCelsius),
         const AccountScreen(),
         ForecastScreen(weather: widget.weather),
