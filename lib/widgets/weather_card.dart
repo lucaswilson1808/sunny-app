@@ -24,7 +24,7 @@ class WeatherCard extends StatelessWidget {
         );
       },
       child: Card(
-        elevation: 8,
+        elevation: 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Padding(

@@ -21,15 +21,21 @@ class LandingScreen extends StatelessWidget {
         children: [
           Text(
             "Weather in ${weather.city}, ${weather.region}:",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 10),
-          Text("${weather.condition}"),
+          Text(
+            "${weather.condition}",
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          ),
           const SizedBox(height: 5),
           Text(
-              "Temperature: ${isCelsius ? weather.temperature.toStringAsFixed(1) + "°C" : (weather.temperature * 9 / 5 + 32).toStringAsFixed(1) + "°F"}"),
+            "Temperature: ${isCelsius ? weather.temperature.toStringAsFixed(1) + "°C" : (weather.temperature * 9 / 5 + 32).toStringAsFixed(1) + "°F"}",
+            style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
+          ),
           const SizedBox(height: 20),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(minimumSize: const Size(200, 50)),
             onPressed: onSearchPressed,
             child: const Text("Search for a Location"),
           ),

@@ -45,9 +45,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.20),
       child: Column(
         children: [
+          const SizedBox(height: 20),
           TextField(
             controller: cityController,
             decoration: const InputDecoration(
@@ -55,12 +56,13 @@ class _SearchScreenState extends State<SearchScreen> {
               border: OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 50),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(minimumSize: const Size(200, 50)),
             onPressed: fetchWeather,
-            child: const Text('Get Weather'),
+            child: const Text('Get Weather',style: TextStyle(fontSize: 18)),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           if (weather != null)
             WeatherCard(
               weather: weather!,

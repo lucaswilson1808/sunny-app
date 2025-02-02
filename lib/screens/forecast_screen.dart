@@ -41,8 +41,8 @@ class ForecastScreen extends StatelessWidget {
                   child: ListTile(
                     leading: Image.network(
                       "http:${day.iconUrl}",
-                      width: 50,
-                      height: 50,
+                      width: 80,
+                      height: 80,
                     ),
                     title: Text(day.date),
                     subtitle: Text(

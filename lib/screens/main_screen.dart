@@ -64,6 +64,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_currentTitle),
+        backgroundColor: Color.fromARGB(116, 232, 23, 204),
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -104,6 +105,7 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
+        selectedItemColor: Color.fromARGB(255, 232, 23, 204),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
